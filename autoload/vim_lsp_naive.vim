@@ -25,6 +25,16 @@ function! vim_lsp_naive#config() abort
   execute 'edit ' . fnameescape(l:config_path)
 endfunction
 
+function! vim_lsp_naive#register_plug_mappings() abort
+  call s:register_plug_mapping('<Plug>(LspConfig)', '<Cmd>call vim_lsp_naive#config()<CR>')
+endfunction
+
+function! s:register_plug_mapping(lhs, rhs) abort
+  if empty(maparg(a:lhs, 'n'))
+    execute 'nnoremap <silent> ' . a:lhs . ' ' . a:rhs
+  endif
+endfunction
+
 function! vim_lsp_naive#on_buf_enter(bufnr) abort
   let l:bufnr = str2nr(a:bufnr)
   if l:bufnr <= 0

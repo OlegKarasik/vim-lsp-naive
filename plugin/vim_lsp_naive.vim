@@ -3,9 +3,8 @@ if exists('g:loaded_vim_lsp_naive')
 endif
 let g:loaded_vim_lsp_naive = 1
 
-nnoremap <silent> <Plug>(LspConfig) <Cmd>call vim_lsp_naive#config()<CR>
-
 command! -bar -nargs=0 LspConfig call vim_lsp_naive#config()
+call vim_lsp_naive#register_plug_mappings()
 
 augroup vim_lsp_naive
   autocmd!
