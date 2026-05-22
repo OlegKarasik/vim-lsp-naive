@@ -25,7 +25,7 @@ function! vim_lsp_naive#config() abort
   execute 'edit ' . fnameescape(l:config_path)
 endfunction
 
-function! vim_lsp_naive#on_buf_read_post(bufnr) abort
+function! vim_lsp_naive#on_buf_enter(bufnr) abort
   let l:bufnr = str2nr(a:bufnr)
   if l:bufnr <= 0
     return

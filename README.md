@@ -11,6 +11,6 @@ This is a work in progress. A Vim plugin (for personal use) to provide a minimal
 
 ## Automatic behavior
 
-- On `BufReadPost`, plugin reads `vim-lsp.json` and checks `servers` for an
-  entry with `filetype` matching current buffer. When found, it prints
+- On `BufEnter`, plugin reads `vim-lsp.json` and checks `servers` for an entry
+  with `filetype` matching current buffer. When found, it prints
   `found <server-object>`.

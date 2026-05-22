@@ -29,8 +29,8 @@ During startup (`plugin/vim_lsp_naive.vim`), the plugin:
 2. Registers command: `:LspConfig`.
 3. Registers mapping target: `<Plug>(LspConfig)` which calls
    `vim_lsp_naive#config()`.
-4. Registers `BufReadPost` autocommand which calls
-   `vim_lsp_naive#on_buf_read_post(<abuf>)`.
+4. Registers `BufEnter` autocommand which calls
+   `vim_lsp_naive#on_buf_enter(<abuf>)`.
 
 # Command
 
@@ -47,9 +47,9 @@ Execution flow:
 
 # Automatic Behavior
 
-## BufReadPost Server Lookup
+## BufEnter Server Lookup
 
-On each `BufReadPost`, the plugin:
+On each `BufEnter`, the plugin:
 
 1. Resolves current buffer filetype.
 2. Reads `<user-vim-dir>/vim-lsp.json` when present and non-empty.
@@ -69,6 +69,6 @@ On each `BufReadPost`, the plugin:
 
 Public entry point used by `:LspConfig` and `<Plug>(LspConfig)`.
 
-## `vim_lsp_naive#on_buf_read_post(bufnr)`
+## `vim_lsp_naive#on_buf_enter(bufnr)`
 
-Public entry point used by `BufReadPost` autocommand for per-buffer server lookup.
+Public entry point used by `BufEnter` autocommand for per-buffer server lookup.

@@ -9,5 +9,5 @@ command! -bar -nargs=0 LspConfig call vim_lsp_naive#config()
 
 augroup vim_lsp_naive
   autocmd!
-  autocmd BufReadPost * call vim_lsp_naive#on_buf_read_post(expand('<abuf>'))
+  autocmd BufEnter * call vim_lsp_naive#on_buf_enter(expand('<abuf>'))
 augroup END
