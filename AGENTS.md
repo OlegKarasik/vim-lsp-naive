@@ -34,6 +34,8 @@ During startup (`plugin/vim_lsp_naive.vim`), the plugin:
    with the same left-hand side is preserved.
 4. Registers `BufEnter` autocommand which calls
    `vim_lsp_naive#on_buf_enter(<abuf>)`.
+5. Registers `VimLeavePre` autocommand which calls
+   `vim_lsp_naive#on_vim_leave()`.
 
 # Command
 
@@ -59,8 +61,21 @@ On each `BufEnter`, the plugin:
 3. Reads `servers` property from decoded JSON object.
 4. Iterates `servers` list and finds the first object where `filetype` equals
    current buffer filetype.
-5. Prints `found <object>` via `:echomsg` when match is found.
-6. Exits silently when config/servers/filetype data is missing or unmatched.
+5. Reads `executable` from matched server entry.
+6. If `executable` is missing/empty, stops lookup without starting a job.
+7. If `executable` exists and a tracked job for it is running, does nothing.
+8. Otherwise starts a new job for `executable`, establishes a channel, captures
+   stdout/stderr via callbacks, and stores job+channel in an internal job map.
+9. Removes the stored job record when exit callback is triggered.
+10. Exits silently when config/servers/filetype data is missing or unmatched.
+
+## VimLeave Job Cleanup
+
+On `VimLeavePre`, the plugin:
+
+1. Copies internal executable->job map.
+2. Clears internal map to prevent stale state and callback races.
+3. Stops every still-running tracked job via `job_stop(..., 'kill')`.
 
 # Plug Mappings
 
@@ -77,3 +92,7 @@ Public entry point used by `:LspConfig` and `<Plug>(LspConfig)`.
 ## `vim_lsp_naive#on_buf_enter(bufnr)`
 
 Public entry point used by `BufEnter` autocommand for per-buffer server lookup.
+
+## `vim_lsp_naive#on_vim_leave()`
+
+Public entry point used by `VimLeavePre` autocommand for shutdown job cleanup.

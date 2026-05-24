@@ -9,4 +9,5 @@ call vim_lsp_naive#register_plug_mappings()
 augroup vim_lsp_naive
   autocmd!
   autocmd BufEnter * call vim_lsp_naive#on_buf_enter(expand('<abuf>'))
+  autocmd VimLeavePre * call vim_lsp_naive#on_vim_leave()
 augroup END
